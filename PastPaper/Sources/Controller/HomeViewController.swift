@@ -24,7 +24,7 @@ private extension HomeViewController {
     }
     
     func configureNavigationBarTitle() {
-        title = "맛집족보"
+        navigationController?.navigationBar.topItem?.title = "맛집족보"
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
