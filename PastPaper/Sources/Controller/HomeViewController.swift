@@ -7,7 +7,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController {
+final class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +19,7 @@ class HomeViewController: UIViewController {
 }
 
 private extension HomeViewController {
+    
     func setupNavigationBar() {
         configureNavigationBarTitle()
     }
@@ -31,4 +32,5 @@ private extension HomeViewController {
     func setupUI() {
         view.backgroundColor = .systemBackground
     }
+    
 }
