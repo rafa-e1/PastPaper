@@ -142,10 +142,11 @@ private extension CustomTabBarController {
     }
     
     func createTabBarButtons() -> UIStackView {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .fill
-        stackView.distribution = .fillEqually
+        let stackView = UIStackView().then {
+            $0.axis = .horizontal
+            $0.alignment = .fill
+            $0.distribution = .fillEqually
+        }
         return stackView
     }
     
