@@ -142,7 +142,6 @@
 				D78CB61E14220A442BEB26C9 /* Pods-PastPaper.debug.xcconfig */,
 				3848A889ED9C613B9719317D /* Pods-PastPaper.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -411,6 +410,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7WULLR98GP;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PastPaper/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "맛집족보";
@@ -446,6 +446,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7WULLR98GP;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PastPaper/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "맛집족보";
