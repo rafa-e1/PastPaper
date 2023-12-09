@@ -80,6 +80,7 @@
 			isa = PBXGroup;
 			children = (
 				056DAFF22B21AAE70074F5FA /* Application */,
+				05776D472B243B0500901988 /* Model */,
 				056DAFFC2B21CB750074F5FA /* View */,
 				056DAFFD2B21CB7D0074F5FA /* Controller */,
 			);
@@ -111,6 +112,13 @@
 				05776D3D2B22DB8D00901988 /* SettingViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		05776D472B243B0500901988 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -335,6 +343,8 @@
 				DEVELOPMENT_TEAM = 7WULLR98GP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PastPaper/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "맛집족보";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";
@@ -367,6 +377,8 @@
 				DEVELOPMENT_TEAM = 7WULLR98GP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PastPaper/Resources/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "맛집족보";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.food-and-drink";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = "";

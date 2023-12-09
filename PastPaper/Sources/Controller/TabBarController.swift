@@ -106,7 +106,7 @@ extension TabBarController {
             .withTintColor(.black, renderingMode: .alwaysOriginal)
             .withConfiguration(
                 UIImage.SymbolConfiguration(
-                    pointSize: 30.0, weight: .regular
+                    pointSize: 20.0, weight: .regular
                 )
             ), for: .normal
         )
