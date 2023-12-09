@@ -21,10 +21,10 @@ final class HomeViewController: UIViewController {
 private extension HomeViewController {
     
     func setupNavigationBar() {
-        configureNavigationBarTitle()
+        setupNavigationBarTitle()
     }
     
-    func configureNavigationBarTitle() {
+    func setupNavigationBarTitle() {
         navigationController?.navigationBar.topItem?.title = "맛집족보"
         navigationController?.navigationBar.prefersLargeTitles = true
     }

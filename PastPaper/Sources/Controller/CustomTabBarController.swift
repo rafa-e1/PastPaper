@@ -8,6 +8,7 @@
 import UIKit
 
 import SnapKit
+import Then
 
 final class CustomTabBarController: UIViewController {
     
@@ -106,17 +107,19 @@ private extension CustomTabBarController {
     /// - Parameter tab: 각 탭에 해당되는 이미지와 액션
     /// - Returns: UIButton 객체 반환
     func createTabBarButton(for tab: Tab) -> UIButton {
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(systemName: tab.imageName)?
-            .withTintColor(.black, renderingMode: .alwaysOriginal)
-            .withConfiguration(
-                UIImage.SymbolConfiguration(
-                    pointSize: 20.0, weight: .regular
-                )
-            ), for: .normal
-        )
-        button.addTarget(self, action: #selector(tabBarButtonTapped), for: .touchUpInside)
-        button.tag = tabs.firstIndex(of: tab) ?? 0
+        let button = UIButton(type: .custom).then {
+            $0.setImage(UIImage(systemName: tab.imageName)?
+                .withTintColor(.black, renderingMode: .alwaysOriginal)
+                .withConfiguration(
+                    UIImage.SymbolConfiguration(
+                        pointSize: 20.0, weight: .regular
+                    )
+                ), for: .normal
+            )
+            
+            $0.addTarget(self, action: #selector(tabBarButtonTapped), for: .touchUpInside)
+            $0.tag = tabs.firstIndex(of: tab) ?? 0
+        }
         return button
     }
     
@@ -139,10 +142,11 @@ private extension CustomTabBarController {
     }
     
     func createTabBarButtons() -> UIStackView {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.alignment = .fill
-        stackView.distribution = .fillEqually
+        let stackView = UIStackView().then {
+            $0.axis = .horizontal
+            $0.alignment = .fill
+            $0.distribution = .fillEqually
+        }
         return stackView
     }
     
