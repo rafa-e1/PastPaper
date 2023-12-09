@@ -13,6 +13,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class TabBarController: UITabBarController {
     
@@ -43,7 +44,6 @@ class TabBarController: UITabBarController {
         view.layer.shadowOpacity = 1
         view.layer.shadowOffset = CGSize(width: 0, height: 1)
         view.layer.shadowRadius = 2
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -70,7 +70,6 @@ class TabBarController: UITabBarController {
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.alignment = .fill
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
@@ -92,7 +91,7 @@ class TabBarController: UITabBarController {
         viewControllers = [homeVC, bookmarkVC, settingVC]
         
         addSubviews()
-        setupConstraints()
+        makeConstraints()
     }
     
 }
@@ -158,23 +157,17 @@ extension TabBarController {
         customTabBarView.addSubview(tabBarButtons)
     }
     
-    private func setupConstraints() {
-        NSLayoutConstraint.activate([
-            customTabBarView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            customTabBarView.leadingAnchor.constraint(
-                equalTo: view.leadingAnchor, constant: 20
-            ),
-            customTabBarView.bottomAnchor.constraint(
-                equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -5
-            ),
-            customTabBarView.heightAnchor.constraint(equalToConstant: 60)
-        ])
+    private func makeConstraints() {
+        customTabBarView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.leading.equalTo(20)
+            make.bottomMargin.equalTo(-5)
+            make.height.equalTo(60)
+        }
         
-        NSLayoutConstraint.activate([
-            tabBarButtons.centerXAnchor.constraint(equalTo: customTabBarView.centerXAnchor),
-            tabBarButtons.leadingAnchor.constraint(equalTo: customTabBarView.leadingAnchor),
-            tabBarButtons.bottomAnchor.constraint(equalTo: customTabBarView.bottomAnchor),
-            tabBarButtons.heightAnchor.constraint(equalToConstant: 60)
-        ])
+        tabBarButtons.snp.makeConstraints { make in
+            make.leading.bottom.trailing.equalToSuperview()
+            make.height.equalTo(60)
+        }
     }
 }
