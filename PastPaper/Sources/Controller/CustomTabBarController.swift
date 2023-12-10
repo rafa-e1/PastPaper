@@ -96,7 +96,7 @@ private extension CustomTabBarController {
         customTabBarView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.leading.equalTo(20)
-            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-10)
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
             make.height.equalTo(60)
         }
     }
