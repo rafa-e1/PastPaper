@@ -18,6 +18,7 @@ final class CategoryTableViewCell: UITableViewCell {
         $0.textColor = .black
         $0.font = .systemFont(ofSize: 20, weight: .semibold)
     }
+    
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: UICollectionViewFlowLayout().then {
