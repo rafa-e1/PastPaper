@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import Then
 
-final class HomeCell: UITableViewCell {
+class HomeCell: UITableViewCell {
     
     static let id = "HomeCell"
     
@@ -38,7 +38,7 @@ final class HomeCell: UITableViewCell {
         }
     }
     
-    func configure(_ data: Home) {
+    func configure(_ data: Category) {
         categoryLabel.text = data.category
     }
     

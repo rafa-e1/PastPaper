@@ -12,29 +12,34 @@ import Then
 
 final class RestaurantViewController: UIViewController {
     
+    var category: Category?
+    private var stores: [Store] = []
+    
     private lazy var tableView = UITableView().then {
         $0.backgroundColor = .white
         $0.separatorStyle = .none
-        $0.rowHeight = 220
+        $0.rowHeight = 400
+        $0.estimatedRowHeight = UITableView.automaticDimension
         $0.dataSource = self
         $0.delegate = self
-        $0.register(CategoryTableViewCell.self, forCellReuseIdentifier: CategoryTableViewCell.id)
         $0.register(
-            MainCategoryHeaderView.self,
-            forHeaderFooterViewReuseIdentifier: MainCategoryHeaderView.id
+            CategoryButtonCell.self,
+            forHeaderFooterViewReuseIdentifier: CategoryButtonCell.id
         )
+        $0.register(CategoryCell.self, forCellReuseIdentifier: CategoryCell.id)
     }
-    
-    private var dataSource = [Category]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.addSubview(self.tableView)
-        self.tableView.snp.makeConstraints {
-            $0.edges.equalTo(self.view)
+        view.backgroundColor = .white
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.left.right.equalToSuperview()
         }
-        self.dataSource = sampleModel
-        self.tableView.reloadData()
+        tableView.reloadData()
+        navigationController?.navigationBar.tintColor = .black
+        navigationItem.largeTitleDisplayMode = .never
     }
     
 }
@@ -42,47 +47,60 @@ final class RestaurantViewController: UIViewController {
 extension RestaurantViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        self.dataSource.count
+        return 1
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.dataSource[section].subcategoryList.count
+        guard let subcategories = category?.subcategory else { return 0 }
+        return subcategories.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
-            withIdentifier: CategoryTableViewCell.id,
+    func tableView(
+        _ tableView: UITableView,
+        cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: CategoryCell.id,
             for: indexPath
-        ) as! CategoryTableViewCell
-        let row = self.dataSource[indexPath.section].subcategoryList[indexPath.row]
-        cell.prepare(subTitle: row.name, colorModelList: row.colors)
+        ) as? CategoryCell, let category = category else {
+            return UITableViewCell()
+        }
+        
+        let subcategory = category.subcategory[indexPath.row]
+        let stores = category.storeInfo
+        let colors = category.colors
+        
+        cell.prepare(subTitle: subcategory, colors: colors, stores: stores)
+        cell.selectionStyle = .none
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        guard section == 0, 
+            let headerView = tableView.dequeueReusableHeaderFooterView(
+                withIdentifier: CategoryButtonCell.id
+            ) as? CategoryButtonCell else {
+            return nil
+        }
+        headerView.onButtonClicked = { [weak self] title in
+            self?.scrollToCategory(title)
+        }
+        return headerView
+    }
+    
+    private func scrollToCategory(_ title: String) {
+        guard let index = category?.subcategory.firstIndex(where: { $0 == title }) else {
+            print("카테고리를 찾을 수 없음")
+            return
+        }
+        let indexPath = IndexPath(row: index, section: 0)
+        tableView.scrollToRow(at: indexPath, at: .top, animated: true)
     }
     
 }
 
 extension RestaurantViewController: UITableViewDelegate {
-    
-    func tableView(
-        _ tableView: UITableView,
-        viewForHeaderInSection section: Int
-    ) -> UIView? {
-        let cell = tableView.dequeueReusableHeaderFooterView(
-            withIdentifier: MainCategoryHeaderView.id
-        ) as! MainCategoryHeaderView
-        cell.prepare(title: self.dataSource[section].name)
-        return cell
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 60
     }
-    
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section == self.dataSource.count - 1 {
-            return 70 // 탭 바 높이 + 10포인트
-        }
-        return 0
-    }
-    
-    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        return UIView() // 투명한 뷰를 반환하여 실제로 보이지 않도록 함
-    }
-    
 }
