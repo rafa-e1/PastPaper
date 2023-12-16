@@ -12,10 +12,12 @@ import Then
 
 final class HomeViewController: UIViewController {
     
-    private var categoriesForSection0: [Category] = Category.categoriesForSection0()
-    private var categoriesForSection1: [Category] = Category.categoriesForSection1()
-    private var categoriesForSection2: [Category] = Category.categoriesForSection2()
-    private var categoriesForSection3: [Category] = Category.categoriesForSection3()
+    // MARK: - 카테고리 데이터
+    
+    private let categoriesModel = CategoriesModel()
+    private let lastSection: [Category] = Category.categoriesForSection3()
+    
+    // MARK: - 테이블 뷰 설정
     
     private lazy var tableView = UITableView(frame: .zero, style: .insetGrouped).then {
         $0.backgroundColor = #colorLiteral(red: 0.9647058845, green: 0.9647058845, blue: 0.9647058845, alpha: 1)
@@ -26,38 +28,30 @@ final class HomeViewController: UIViewController {
         $0.register(HomeCell.self, forCellReuseIdentifier: HomeCell.id)
     }
     
-    private let lastSection: [Category] = Category.categoriesForSection3()
+    // MARK: - 생명주기
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureUI()
     }
     
 }
 
+// MARK: - 데이터 소스 구현
+
 extension HomeViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return categoriesModel.sections.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0:
-            return categoriesForSection0.count
-        case 1:
-            return categoriesForSection1.count
-        case 2:
-            return categoriesForSection2.count
-        case 3:
-            return categoriesForSection3.count
-        default:
-            return 0
-        }
+        return categoriesModel.sections[section].count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -65,25 +59,15 @@ extension HomeViewController: UITableViewDataSource {
             withIdentifier: HomeCell.id,
             for: indexPath
         ) as? HomeCell else { return UITableViewCell() }
-        let category: Category
-        switch indexPath.section {
-        case 0:
-            category = categoriesForSection0[indexPath.row]
-        case 1:
-            category = categoriesForSection1[indexPath.row]
-        case 2:
-            category = categoriesForSection2[indexPath.row]
-        case 3:
-            category = categoriesForSection3[indexPath.row]
-        default:
-            fatalError("Unknown section")
-        }
+        let category = categoriesModel.sections[indexPath.section][indexPath.row]
         cell.configure(category)
         cell.selectionStyle = .none
         return cell
     }
     
 }
+
+// MARK: - 델리게이트 구현
 
 extension HomeViewController: UITableViewDelegate {
     
@@ -109,19 +93,7 @@ extension HomeViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let category: Category
-        switch indexPath.section {
-        case 0:
-            category = categoriesForSection0[indexPath.row]
-        case 1:
-            category = categoriesForSection1[indexPath.row]
-        case 2:
-            category = categoriesForSection2[indexPath.row]
-        case 3:
-            category = categoriesForSection3[indexPath.row]
-        default:
-            return
-        }
+        let category = categoriesModel.sections[indexPath.section][indexPath.row]
         
         let restaurantVC = RestaurantViewController()
         restaurantVC.title = category.category
@@ -136,6 +108,29 @@ extension HomeViewController: UITableViewDelegate {
     }
     
 }
+
+// MARK: - UI 설정
+
+private extension HomeViewController {
+    
+    func configureUI() {
+        configureNavigationBar()
+        configureTableView()
+    }
+    
+    func configureTableView() {
+        view.addSubview(tableView)
+        
+        tableView.snp.makeConstraints {
+            $0.edges.equalTo(view)
+        }
+        
+        tableView.reloadData()
+    }
+    
+}
+
+// MARK: - 네비게이션 바 설정
 
 private extension HomeViewController {
     
@@ -161,25 +156,6 @@ private extension HomeViewController {
         navigationController?.navigationBar.layer.shadowOpacity = 0.2
         navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 4)
         navigationController?.navigationBar.layer.shadowRadius = 2
-    }
-    
-}
-
-private extension HomeViewController {
-    
-    func configureUI() {
-        configureNavigationBar()
-        configureTableView()
-    }
-    
-    func configureTableView() {
-        view.addSubview(tableView)
-        
-        tableView.snp.makeConstraints {
-            $0.edges.equalTo(view)
-        }
-        
-        tableView.reloadData()
     }
     
 }
