@@ -12,15 +12,26 @@ import Then
 
 class CategoryCell: UITableViewCell {
     
+    // MARK: - 셀 아이디
+    
     static let id = "CategoryCell"
     
-    private var stores: [Store] = []
-    private let nameLabelHeight: CGFloat = 50
+    // MARK: - 가게 데이터
+    
+    private var restaurants: [Restaurant] = []
+    
+    // MARK: - 가게 이미지 임시 데이터
+    
+    private var colors = [UIColor]()
+    
+    // MARK: - 서브카테고리 제목 설정
     
     private lazy var titleLabel = UILabel().then {
         $0.textColor = .black
         $0.font = .systemFont(ofSize: 25, weight: .semibold)
     }
+    
+    // MARK: - 전체보기 버튼 설정
     
     private lazy var seeAllButton = UIButton(type: .custom).then {
         $0.setAttributedTitle(
@@ -35,12 +46,14 @@ class CategoryCell: UITableViewCell {
         )
     }
     
+    // MARK: - 컬렉션 뷰 설정
+    
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: UICollectionViewFlowLayout().then {
             let layout = $0 as UICollectionViewFlowLayout
             layout.scrollDirection = .horizontal
-            layout.itemSize = CGSize(width: 300, height: 300 + nameLabelHeight)
+            layout.itemSize = CGSize(width: 300, height: 350)
             layout.minimumLineSpacing = 10.0
             layout.minimumInteritemSpacing = 10.0
         }
@@ -55,7 +68,7 @@ class CategoryCell: UITableViewCell {
         )
     }
     
-    private var colors = [UIColor]()
+    // MARK: - 초기화 메서드
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -84,19 +97,16 @@ class CategoryCell: UITableViewCell {
         fatalError()
     }
     
+    // MARK: - 셀 재사용 준비
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         prepare(subTitle: nil, colors: [], stores: [])
     }
     
-    func prepare(subTitle: String?, colors: [UIColor], stores: [Store]) {
-        titleLabel.text = subTitle
-        self.colors = colors
-        self.stores = stores
-        collectionView.reloadData()
-    }
-    
 }
+
+// MARK: - 데이터 소스 구현
 
 extension CategoryCell: UICollectionViewDataSource {
     
@@ -104,7 +114,7 @@ extension CategoryCell: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return stores.count
+        return restaurants.count
     }
     
     func collectionView(
@@ -118,8 +128,8 @@ extension CategoryCell: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let store = self.stores[indexPath.item]
-        let color = self.colors[indexPath.item % colors.count]
+        let store = restaurants[indexPath.item]
+        let color = colors[indexPath.item % colors.count]
         cell.prepare(
             color: color,
             name: store.name,
@@ -128,6 +138,19 @@ extension CategoryCell: UICollectionViewDataSource {
         )
         
         return cell
+    }
+    
+}
+
+// MARK: - 데이터 구성
+
+extension CategoryCell {
+    
+    func prepare(subTitle: String?, colors: [UIColor], stores: [Restaurant]) {
+        titleLabel.text = subTitle
+        self.colors = colors
+        self.restaurants = stores
+        collectionView.reloadData()
     }
     
 }

@@ -12,8 +12,12 @@ import Then
 
 final class RestaurantViewController: UIViewController {
     
+    // MARK: - 카테고리, 가게 데이터
+    
     var category: Category?
-    private var stores: [Store] = []
+    private let stores: [Restaurant] = []
+    
+    // MARK: - 테이블 뷰 설정
     
     private lazy var tableView = UITableView().then {
         $0.backgroundColor = .white
@@ -29,20 +33,21 @@ final class RestaurantViewController: UIViewController {
         $0.register(CategoryCell.self, forCellReuseIdentifier: CategoryCell.id)
     }
     
+    // MARK: - 생명주기
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        view.addSubview(tableView)
-        tableView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide)
-            $0.bottom.left.right.equalToSuperview()
-        }
-        tableView.reloadData()
-        navigationController?.navigationBar.tintColor = .black
-        navigationItem.largeTitleDisplayMode = .never
+        configureUI()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureUI()
     }
     
 }
+
+// MARK: - 데이터 소스 구현
 
 extension RestaurantViewController: UITableViewDataSource {
     
@@ -88,7 +93,7 @@ extension RestaurantViewController: UITableViewDataSource {
         return headerView
     }
     
-    private func scrollToCategory(_ title: String) {
+    func scrollToCategory(_ title: String) {
         guard let index = category?.subcategory.firstIndex(where: { $0 == title }) else {
             print("카테고리를 찾을 수 없음")
             return
@@ -99,8 +104,61 @@ extension RestaurantViewController: UITableViewDataSource {
     
 }
 
+// MARK: - 델리게이트 구현
+
 extension RestaurantViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 60
     }
+    
+}
+
+// MARK: - UI 설정
+
+private extension RestaurantViewController {
+    
+    func configureUI() {
+        view.backgroundColor = .white
+        
+        configureNavigationBar()
+        configureTableView()
+    }
+    
+}
+
+// MARK: - 네비게이션 바 설정
+
+private extension RestaurantViewController {
+    
+    func configureNavigationBar() {
+        setNavigationBarTitle()
+        removeNavigationBarShadow()
+    }
+    
+    func setNavigationBarTitle() {
+        navigationController?.navigationBar.tintColor = .black
+        navigationItem.largeTitleDisplayMode = .never
+    }
+    
+    func removeNavigationBarShadow() {
+        navigationController?.navigationBar.layer.shadowOpacity = 0
+    }
+    
+}
+
+// MARK: - 테이블 뷰 설정
+
+private extension RestaurantViewController {
+    
+    func configureTableView() {
+        view.addSubview(tableView)
+        
+        tableView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide)
+            $0.bottom.left.right.equalToSuperview()
+        }
+        tableView.reloadData()
+    }
+    
 }
