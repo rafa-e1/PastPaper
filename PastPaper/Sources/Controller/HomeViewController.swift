@@ -12,6 +12,11 @@ import Then
 
 final class HomeViewController: UIViewController {
     
+    private var categoriesForSection0: [Category] = Category.categoriesForSection0()
+    private var categoriesForSection1: [Category] = Category.categoriesForSection1()
+    private var categoriesForSection2: [Category] = Category.categoriesForSection2()
+    private var categoriesForSection3: [Category] = Category.categoriesForSection3()
+    
     private lazy var tableView = UITableView(frame: .zero, style: .insetGrouped).then {
         $0.backgroundColor = #colorLiteral(red: 0.9647058845, green: 0.9647058845, blue: 0.9647058845, alpha: 1)
         $0.separatorStyle = .none
@@ -21,11 +26,15 @@ final class HomeViewController: UIViewController {
         $0.register(HomeCell.self, forCellReuseIdentifier: HomeCell.id)
     }
     
-    private var data: [CategorySection] = CategorySection.generateData()
+    private let lastSection: [Category] = Category.categoriesForSection3()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
     }
     
 }
@@ -33,21 +42,43 @@ final class HomeViewController: UIViewController {
 extension HomeViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        self.data.count
+        return 4
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.data[section].lists.count
+        switch section {
+        case 0:
+            return categoriesForSection0.count
+        case 1:
+            return categoriesForSection1.count
+        case 2:
+            return categoriesForSection2.count
+        case 3:
+            return categoriesForSection3.count
+        default:
+            return 0
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(
+        guard let cell = tableView.dequeueReusableCell(
             withIdentifier: HomeCell.id,
             for: indexPath
-        ) as! HomeCell
-        let section = data[indexPath.section]
-        let home = section.lists[indexPath.row]
-        cell.configure(home)
+        ) as? HomeCell else { return UITableViewCell() }
+        let category: Category
+        switch indexPath.section {
+        case 0:
+            category = categoriesForSection0[indexPath.row]
+        case 1:
+            category = categoriesForSection1[indexPath.row]
+        case 2:
+            category = categoriesForSection2[indexPath.row]
+        case 3:
+            category = categoriesForSection3[indexPath.row]
+        default:
+            fatalError("Unknown section")
+        }
+        cell.configure(category)
         cell.selectionStyle = .none
         return cell
     }
@@ -57,7 +88,7 @@ extension HomeViewController: UITableViewDataSource {
 extension HomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        if section == self.data.count - 1 {
+        if section == lastSection.count {
             return 70 // 탭 바 높이 + 10포인트
         }
         return 0
@@ -77,6 +108,33 @@ extension HomeViewController: UITableViewDelegate {
         return UIView() // 투명한 뷰를 반환하여 실제로 보이지 않도록 함
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let category: Category
+        switch indexPath.section {
+        case 0:
+            category = categoriesForSection0[indexPath.row]
+        case 1:
+            category = categoriesForSection1[indexPath.row]
+        case 2:
+            category = categoriesForSection2[indexPath.row]
+        case 3:
+            category = categoriesForSection3[indexPath.row]
+        default:
+            return
+        }
+        
+        let restaurantVC = RestaurantViewController()
+        restaurantVC.title = category.category
+        restaurantVC.category = category
+        navigationController?.navigationBar.topItem?.backBarButtonItem = UIBarButtonItem(
+            title: "",
+            style: .plain,
+            target: nil,
+            action: nil
+        )
+        navigationController?.pushViewController(restaurantVC, animated: true)
+    }
+    
 }
 
 private extension HomeViewController {
@@ -87,6 +145,7 @@ private extension HomeViewController {
     }
     
     func setNavigationBarTitle() {
+        navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.topItem?.title = "맛집족보"
         navigationController?.navigationBar.barTintColor = .white
         navigationController?.navigationBar.largeTitleTextAttributes = [

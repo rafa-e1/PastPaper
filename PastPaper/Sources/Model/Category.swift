@@ -7,695 +7,88 @@
 
 import UIKit
 
+struct Store {
+    let name: String
+    let description: String
+    let rating: Double
+}
+
 struct Category {
-    let name: String
-    let subcategoryList: [Subcategory]
+    let category: String
+    let subcategory: [String]
+    let colors: [UIColor]
+    let storeInfo: [Store]
 }
 
-struct Subcategory {
-    let name: String
-    let colors: [ColorModel]
-}
+extension Category {
+    static let subcategories = [
+        "혼밥하기 좋은 곳",
+        "둘이서 먹기 좋은 곳",
+        "여러 명이서 먹기 좋은 곳",
+        "간단하게 먹기 좋은 곳",
+        "가성비 甲",
+        "분위기 甲",
+        "24시",
+        "신규"
+    ]
 
-struct ColorModel {
-    let name: String
-    let color: UIColor
-}
+    static func categoriesForSection(with categoryNames: [String]) -> [Category] {
+        return categoryNames.map { categoryName in
+            Category(
+                category: categoryName,
+                subcategory: subcategories,
+                colors: UIColor.generateRandomColors(count: 10), 
+                storeInfo: generateStores(for: categoryName)
+            )
+        }
+    }
+    
+    static func generateStores(for categoryName: String) -> [Store] {
+        return (1...10).map { index in
+            Store(
+                name: "\(categoryName) Store #\(index)",
+                description: 
+                """
+                This is \(categoryName) Store #\(index). 
+                Here you can find a variety of dishes and enjoy a wonderful dining experience.
+                """,
+                rating: Double.random(in: 3.0...5.0)
+            )
+        }
+    }
 
-let sampleModel = [
-    Category(
-        name: "한식",
-        subcategoryList: [
-            Subcategory(
-                name: "혼자서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "둘이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "여러 명이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "간단하게 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "가성비 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "분위기 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "24시",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "신규",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-        ]
-    ),
+    static func categoriesForSection0() -> [Category] {
+        let categoryNames = ["한식", "양식", "중식", "일식", "분식", "기타"]
+        return categoriesForSection(with: categoryNames)
+    }
     
-    Category(
-        name: "양식",
-        subcategoryList: [
-            Subcategory(
-                name: "혼자서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "둘이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "여러 명이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "간단하게 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "가성비 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "분위기 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "24시",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "신규",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-        ]
-    ),
+    static func categoriesForSection1() -> [Category] {
+        let categoryNames = ["고깃집", "횟집", "요리주점", "족발/보쌈", "곱창/막창"]
+        return categoriesForSection(with: categoryNames)
+    }
     
-    Category(
-        name: "중식",
-        subcategoryList: [
-            Subcategory(
-                name: "혼자서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "둘이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "여러 명이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "간단하게 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "가성비 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "분위기 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "24시",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "신규",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-        ]
-    ),
+    static func categoriesForSection2() -> [Category] {
+        let categoryNames = ["돈가스", "치킨/피자", "맥주/호프"]
+        return categoriesForSection(with: categoryNames)
+    }
     
-    Category(
-        name: "일식",
-        subcategoryList: [
-            Subcategory(
-                name: "혼자서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "둘이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "여러 명이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "간단하게 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "가성비 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "분위기 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "24시",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "신규",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-        ]
-    ),
-    
-    Category(
-        name: "분식",
-        subcategoryList: [
-            Subcategory(
-                name: "혼자서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "둘이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "여러 명이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "간단하게 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "가성비 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "분위기 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "24시",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "신규",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-        ]
-    ),
-    
-    Category(
-        name: "기타",
-        subcategoryList: [
-            Subcategory(
-                name: "혼자서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "둘이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "여러 명이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "간단하게 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "가성비 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "분위기 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "24시",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "신규",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-        ]
-    ),
-    
-    // -------------------------------------
-    
-    Category(
-        name: "고깃집",
-        subcategoryList: [
-            Subcategory(
-                name: "혼자서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "둘이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "여러 명이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "간단하게 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "가성비 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "분위기 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "24시",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "신규",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-        ]
-    ),
-    
-    Category(
-        name: "횟집",
-        subcategoryList: [
-            Subcategory(
-                name: "혼자서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "둘이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "여러 명이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "간단하게 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "가성비 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "분위기 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "24시",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "신규",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-        ]
-    ),
-    
-    Category(
-        name: "요리주점",
-        subcategoryList: [
-            Subcategory(
-                name: "혼자서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "둘이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "여러 명이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "간단하게 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "가성비 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "분위기 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "24시",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "신규",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-        ]
-    ),
-    
-    Category(
-        name: "족발/보쌈",
-        subcategoryList: [
-            Subcategory(
-                name: "혼자서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "둘이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "여러 명이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "간단하게 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "가성비 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "분위기 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "24시",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "신규",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-        ]
-    ),
-    
-    Category(
-        name: "곱창/막창",
-        subcategoryList: [
-            Subcategory(
-                name: "혼자서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "둘이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "여러 명이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "간단하게 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "가성비 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "분위기 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "24시",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "신규",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-        ]
-    ),
-    
-    // -------------------------------------------
-    
-    Category(
-        name: "돈가스",
-        subcategoryList: [
-            Subcategory(
-                name: "혼자서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "둘이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "여러 명이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "간단하게 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "가성비 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "분위기 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "24시",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "신규",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-        ]
-    ),
-    
-    Category(
-        name: "치킨/피자",
-        subcategoryList: [
-            Subcategory(
-                name: "혼자서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "둘이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "여러 명이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "간단하게 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "가성비 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "분위기 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "24시",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "신규",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-        ]
-    ),
-    
-    Category(
-        name: "맥주/호프",
-        subcategoryList: [
-            Subcategory(
-                name: "혼자서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "둘이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "여러 명이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "간단하게 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "가성비 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "분위기 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "24시",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "신규",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-        ]
-    ),
-    
-    // ------------------------------------------
-    
-    Category(
-        name: "다이어트",
-        subcategoryList: [
-            Subcategory(
-                name: "혼자서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "둘이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "여러 명이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "간단하게 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "가성비 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "분위기 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "24시",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "신규",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-        ]
-    ),
-    
-    Category(
-        name: "패스트푸드",
-        subcategoryList: [
-            Subcategory(
-                name: "혼자서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "둘이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "여러 명이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "간단하게 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "가성비 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "분위기 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "24시",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "신규",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-        ]
-    ),
-    
-    Category(
-        name: "카페/디저트",
-        subcategoryList: [
-            Subcategory(
-                name: "혼자서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "둘이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "여러 명이서 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "간단하게 먹기 좋은 곳",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "가성비 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "분위기 甲",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "24시",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-            Subcategory(
-                name: "신규",
-                colors: UIColor.getRandomColorList().map { ColorModel(name: "컬러(\($0.hexString))", color: $0) }
-            ),
-        ]
-    )
-]
+    static func categoriesForSection3() -> [Category] {
+        let categoryNames = ["다이어트", "패스트푸드", "카페/디저트"]
+        return categoriesForSection(with: categoryNames)
+    }
+}
 
 extension UIColor {
+    static func generateRandomColors(count: Int) -> [UIColor] {
+        return (0..<count).map { _ in randomColor }
+    }
+
     static var randomColor: UIColor {
-        UIColor(red: CGFloat(drand48()), green: CGFloat(drand48()), blue: CGFloat(drand48()), alpha: 1.0)
-    }
-    
-    static func getRandomColorList() -> [UIColor] {
-        (0...((10...30).randomElement() ?? 10))
-            .map { _ in Self.randomColor }
-    }
-    
-    var hexString: String {
-        let components = self.cgColor.components
-        let r = components?[0] ?? 0.0
-        let g = components?[1] ?? 0.0
-        let b = components?[2] ?? 0.0
-        return String(
-            format: "#%02lX%02lX%02lX",
-            lroundf(Float(r * 255)),
-            lroundf(Float(g * 255)),
-            lroundf(Float(b * 255))
+        return UIColor(
+            red: CGFloat(drand48()),
+            green: CGFloat(drand48()),
+            blue: CGFloat(drand48()),
+            alpha: 1.0
         )
     }
 }
