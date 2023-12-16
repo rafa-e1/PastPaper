@@ -449,7 +449,7 @@ extension KingfisherWrapper where Base: KFCrossPlatformImageView {
             switch newValue {
             case .none: indicator = nil
             case .activity: indicator = ActivityIndicator()
-            case .image(let data): indicator = ImageIndicator(imageData: data)
+            case .image(let lastSection): indicator = ImageIndicator(imageData: lastSection)
             case .custom(let anIndicator): indicator = anIndicator
             }
 

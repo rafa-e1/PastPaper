@@ -53,6 +53,14 @@ final class CustomTabBarController: UIViewController {
         switchToViewController(tabs[0].viewController)
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        customTabBarView.layer.shadowPath = UIBezierPath(
+            roundedRect: customTabBarView.bounds,
+            cornerRadius: 30
+        ).cgPath
+    }
+    
 }
 
 // MARK: - 뷰 설정
