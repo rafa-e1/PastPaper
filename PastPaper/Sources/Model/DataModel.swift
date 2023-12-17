@@ -7,6 +7,8 @@
 
 import UIKit
 
+// MARK: - Models
+
 struct CategoriesModel {
     var sections: [[Category]] = [
         Category.categoriesForSection0(),
@@ -28,6 +30,8 @@ struct Category {
     let colors: [UIColor]
     let storeInfo: [Restaurant]
 }
+
+// MARK: - Data Generators
 
 struct CategoryDataGenerator {
     static let subcategories = [
@@ -67,6 +71,8 @@ struct CategoryDataGenerator {
     }
 }
 
+// MARK: - Utilities
+
 struct ColorUtility {
     static func generateRandomColors(count: Int) -> [UIColor] {
         return (0..<count).map { _ in randomColor }
@@ -82,7 +88,10 @@ struct ColorUtility {
     }
 }
 
+// MARK: - Category Extensions
+
 extension Category {
+    
     static func categoriesForSection0() -> [Category] {
         let categoryNames = ["한식", "양식", "중식", "일식", "분식", "기타"]
         return CategoryDataGenerator.categoriesForSection(with: categoryNames)
@@ -94,7 +103,7 @@ extension Category {
     }
 
     static func categoriesForSection2() -> [Category] {
-        let categoryNames = ["돈가스", "치킨/피자", "맥주/호프"]
+        let categoryNames = ["돈까스", "치킨/피자", "맥주/호프"]
         return CategoryDataGenerator.categoriesForSection(with: categoryNames)
     }
 
@@ -102,4 +111,5 @@ extension Category {
         let categoryNames = ["다이어트", "패스트푸드", "카페/디저트"]
         return CategoryDataGenerator.categoriesForSection(with: categoryNames)
     }
+    
 }

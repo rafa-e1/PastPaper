@@ -12,26 +12,26 @@ import Then
 
 class CategoryCell: UITableViewCell {
     
-    // MARK: - 셀 아이디
+    // MARK: - Identifiers
     
     static let id = "CategoryCell"
     
-    // MARK: - 가게 데이터
+    // MARK: - Restaurant Data
     
     private var restaurants: [Restaurant] = []
     
-    // MARK: - 가게 이미지 임시 데이터
+    // MARK: - Temporary Data for Restaurant Images
     
     private var colors = [UIColor]()
     
-    // MARK: - 서브카테고리 제목 설정
+    // MARK: - UI Components
     
     private lazy var titleLabel = UILabel().then {
-        $0.textColor = .black
-        $0.font = .systemFont(ofSize: 25, weight: .semibold)
+        $0.configureLabel(
+            font: UIFont.systemFont(ofSize: 25.0, weight: .semibold),
+            textColor: .black
+        )
     }
-    
-    // MARK: - 전체보기 버튼 설정
     
     private lazy var seeAllButton = UIButton(type: .custom).then {
         $0.setAttributedTitle(
@@ -46,8 +46,6 @@ class CategoryCell: UITableViewCell {
         )
     }
     
-    // MARK: - 컬렉션 뷰 설정
-    
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: UICollectionViewFlowLayout().then {
@@ -59,54 +57,45 @@ class CategoryCell: UITableViewCell {
         }
     ).then {
         $0.showsHorizontalScrollIndicator = false
-        $0.contentInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+        $0.contentInset = UIEdgeInsets(top: 0, left: 20, bottom: 20, right: 20)
         $0.backgroundColor = .clear
         $0.dataSource = self
         $0.register(
             RestaurantCell.self,
-            forCellWithReuseIdentifier: RestaurantCell.id
+            forCellWithReuseIdentifier: RestaurantCell.identifier
         )
     }
     
-    // MARK: - 초기화 메서드
+    // MARK: - Initializers
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .white
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(seeAllButton)
-        contentView.addSubview(collectionView)
-        
-        titleLabel.snp.makeConstraints {
-            $0.top.left.equalTo(20)
-        }
-        
-        seeAllButton.snp.makeConstraints {
-            $0.centerY.equalTo(titleLabel.snp.centerY)
-            $0.right.equalToSuperview().inset(20)
-        }
-        
-        collectionView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom)
-            $0.left.bottom.right.equalToSuperview()
-        }
-
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError()
     }
     
-    // MARK: - 셀 재사용 준비
+    // MARK: - Cell Reuse
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        prepare(subTitle: nil, colors: [], stores: [])
+        configure(subTitle: nil, colors: [], stores: [])
+    }
+    
+    // MARK: - Configuration
+    
+    func configure(subTitle: String?, colors: [UIColor], stores: [Restaurant]) {
+        titleLabel.text = subTitle
+        self.colors = colors
+        self.restaurants = stores
+        collectionView.reloadData()
     }
     
 }
 
-// MARK: - 데이터 소스 구현
+// MARK: - Data Source
 
 extension CategoryCell: UICollectionViewDataSource {
     
@@ -122,7 +111,7 @@ extension CategoryCell: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: RestaurantCell.id,
+            withReuseIdentifier: RestaurantCell.identifier,
             for: indexPath
         ) as? RestaurantCell else {
             return UICollectionViewCell()
@@ -130,7 +119,7 @@ extension CategoryCell: UICollectionViewDataSource {
         
         let store = restaurants[indexPath.item]
         let color = colors[indexPath.item % colors.count]
-        cell.prepare(
+        cell.configure(
             color: color,
             name: store.name,
             description: store.description,
@@ -142,15 +131,36 @@ extension CategoryCell: UICollectionViewDataSource {
     
 }
 
-// MARK: - 데이터 구성
+// MARK: - UI Setup
 
-extension CategoryCell {
+private extension CategoryCell {
     
-    func prepare(subTitle: String?, colors: [UIColor], stores: [Restaurant]) {
-        titleLabel.text = subTitle
-        self.colors = colors
-        self.restaurants = stores
-        collectionView.reloadData()
+    func setupUI() {
+        backgroundColor = .white
+        addSubviews()
+        setConstraints()
+    }
+    
+    func addSubviews() {
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(seeAllButton)
+        contentView.addSubview(collectionView)
+    }
+    
+    func setConstraints() {
+        titleLabel.snp.makeConstraints {
+            $0.top.left.equalTo(20)
+        }
+        
+        seeAllButton.snp.makeConstraints {
+            $0.centerY.equalTo(titleLabel.snp.centerY)
+            $0.right.equalToSuperview().inset(20)
+        }
+        
+        collectionView.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom)
+            $0.left.bottom.right.equalToSuperview()
+        }
     }
     
 }
