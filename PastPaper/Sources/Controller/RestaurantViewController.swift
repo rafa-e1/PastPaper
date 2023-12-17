@@ -12,17 +12,17 @@ import Then
 
 final class RestaurantViewController: UIViewController {
     
-    // MARK: - 카테고리, 가게 데이터
+    // MARK: - Category and Restaurant Data
     
     var category: Category?
     private let stores: [Restaurant] = []
     
-    // MARK: - 테이블 뷰 설정
+    // MARK: - UI Components
     
     private lazy var tableView = UITableView().then {
         $0.backgroundColor = .white
         $0.separatorStyle = .none
-        $0.rowHeight = 400
+        $0.rowHeight = 420
         $0.estimatedRowHeight = UITableView.automaticDimension
         $0.dataSource = self
         $0.delegate = self
@@ -33,21 +33,21 @@ final class RestaurantViewController: UIViewController {
         $0.register(CategoryCell.self, forCellReuseIdentifier: CategoryCell.id)
     }
     
-    // MARK: - 생명주기
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
+        setupUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureUI()
+        setupUI()
     }
     
 }
 
-// MARK: - 데이터 소스 구현
+// MARK: - Data Source
 
 extension RestaurantViewController: UITableViewDataSource {
     
@@ -75,7 +75,7 @@ extension RestaurantViewController: UITableViewDataSource {
         let stores = category.storeInfo
         let colors = category.colors
         
-        cell.prepare(subTitle: subcategory, colors: colors, stores: stores)
+        cell.configure(subTitle: subcategory, colors: colors, stores: stores)
         cell.selectionStyle = .none
         return cell
     }
@@ -104,7 +104,7 @@ extension RestaurantViewController: UITableViewDataSource {
     
 }
 
-// MARK: - 델리게이트 구현
+// MARK: - Delegate
 
 extension RestaurantViewController: UITableViewDelegate {
     
@@ -114,29 +114,29 @@ extension RestaurantViewController: UITableViewDelegate {
     
 }
 
-// MARK: - UI 설정
+// MARK: - UI Setup
 
 private extension RestaurantViewController {
     
-    func configureUI() {
+    func setupUI() {
         view.backgroundColor = .white
         
-        configureNavigationBar()
-        configureTableView()
+        setupNavigationBar()
+        setupTableView()
     }
     
 }
 
-// MARK: - 네비게이션 바 설정
+// MARK: - Navigation Bar Configuration Extensions
 
 private extension RestaurantViewController {
     
-    func configureNavigationBar() {
-        setNavigationBarTitle()
+    func setupNavigationBar() {
+        configureNavigationBarTitle()
         removeNavigationBarShadow()
     }
     
-    func setNavigationBarTitle() {
+    func configureNavigationBarTitle() {
         navigationController?.navigationBar.tintColor = .black
         navigationItem.largeTitleDisplayMode = .never
     }
@@ -147,17 +147,18 @@ private extension RestaurantViewController {
     
 }
 
-// MARK: - 테이블 뷰 설정
+// MARK: - Table View Configuration Extensions
 
 private extension RestaurantViewController {
     
-    func configureTableView() {
+    func setupTableView() {
         view.addSubview(tableView)
         
         tableView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide)
             $0.bottom.left.right.equalToSuperview()
         }
+        
         tableView.reloadData()
     }
     

@@ -12,51 +12,49 @@ import Then
 
 class HomeCell: UITableViewCell {
     
-    // MARK: - 셀 아이디
+    // MARK: - Identifiers
     
-    static let id = "HomeCell"
+    static let identifier = "HomeCell"
     
-    // MARK: - 카테고리 타이틀 설정
+    // MARK: - UI Components
     
     private lazy var categoryLabel = UILabel().then {
-        $0.font = .systemFont(ofSize: 20.0, weight: .bold)
-        $0.textColor = .black
+        $0.configureLabel(font: .systemFont(ofSize: 20.0, weight: .bold), textColor: .black)
     }
     
-    // MARK: - 초기화 메서드
+    // MARK: - Initializers
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureUI()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-}
-
-// MARK: - 데이터 구성
-
-extension HomeCell {
+    // MARK: - Configuration
     
-    func configure(_ data: Category) {
-        categoryLabel.text = data.category
+    func configure(with category: Category) {
+        categoryLabel.text = category.category
     }
     
 }
 
-// MARK: - UI 설정
+// MARK: - UI Setup
 
 private extension HomeCell {
     
-    func configureUI() {
+    func setupUI() {
         contentView.backgroundColor = .white
         contentView.addSubview(categoryLabel)
-        
-        categoryLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.left.equalTo(20)
+        setConstraints()
+    }
+    
+    func setConstraints() {
+        categoryLabel.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.left.equalTo(20)
         }
     }
     

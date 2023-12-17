@@ -12,12 +12,12 @@ import Then
 
 final class HomeViewController: UIViewController {
     
-    // MARK: - 카테고리 데이터
+    // MARK: - Category Data
     
     private let categoriesModel = CategoriesModel()
     private let lastSection: [Category] = Category.categoriesForSection3()
     
-    // MARK: - 테이블 뷰 설정
+    // MARK: - UI Components
     
     private lazy var tableView = UITableView(frame: .zero, style: .insetGrouped).then {
         $0.backgroundColor = #colorLiteral(red: 0.9647058845, green: 0.9647058845, blue: 0.9647058845, alpha: 1)
@@ -25,24 +25,24 @@ final class HomeViewController: UIViewController {
         $0.rowHeight = 50
         $0.dataSource = self
         $0.delegate = self
-        $0.register(HomeCell.self, forCellReuseIdentifier: HomeCell.id)
+        $0.register(HomeCell.self, forCellReuseIdentifier: HomeCell.identifier)
     }
     
-    // MARK: - 생명주기
+    // MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
+        setupUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        configureUI()
+        setupUI()
     }
     
 }
 
-// MARK: - 데이터 소스 구현
+// MARK: - Data Source
 
 extension HomeViewController: UITableViewDataSource {
     
@@ -56,18 +56,18 @@ extension HomeViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: HomeCell.id,
+            withIdentifier: HomeCell.identifier,
             for: indexPath
         ) as? HomeCell else { return UITableViewCell() }
         let category = categoriesModel.sections[indexPath.section][indexPath.row]
-        cell.configure(category)
+        cell.configure(with: category)
         cell.selectionStyle = .none
         return cell
     }
     
 }
 
-// MARK: - 델리게이트 구현
+// MARK: - Delegate
 
 extension HomeViewController: UITableViewDelegate {
     
@@ -109,37 +109,27 @@ extension HomeViewController: UITableViewDelegate {
     
 }
 
-// MARK: - UI 설정
+// MARK: - UI Setup
 
 private extension HomeViewController {
     
-    func configureUI() {
-        configureNavigationBar()
-        configureTableView()
-    }
-    
-    func configureTableView() {
-        view.addSubview(tableView)
-        
-        tableView.snp.makeConstraints {
-            $0.edges.equalTo(view)
-        }
-        
-        tableView.reloadData()
+    func setupUI() {
+        setupNavigationBar()
+        setupTableView()
     }
     
 }
 
-// MARK: - 네비게이션 바 설정
+// MARK: - Navigation Bar Configuration Extensions
 
 private extension HomeViewController {
     
-    func configureNavigationBar() {
-        setNavigationBarTitle()
-        setNavigationBarShadow()
+    func setupNavigationBar() {
+        configureNavigationBarTitle()
+        configureNavigationBarShadow()
     }
     
-    func setNavigationBarTitle() {
+    func configureNavigationBarTitle() {
         navigationItem.largeTitleDisplayMode = .always
         navigationController?.navigationBar.topItem?.title = "맛집족보"
         navigationController?.navigationBar.barTintColor = .white
@@ -150,12 +140,28 @@ private extension HomeViewController {
         navigationController?.navigationBar.prefersLargeTitles = true
     }
     
-    func setNavigationBarShadow() {
+    func configureNavigationBarShadow() {
         navigationController?.navigationBar.layer.masksToBounds = false
         navigationController?.navigationBar.layer.shadowColor = UIColor.lightGray.cgColor
         navigationController?.navigationBar.layer.shadowOpacity = 0.2
         navigationController?.navigationBar.layer.shadowOffset = CGSize(width: 0, height: 4)
         navigationController?.navigationBar.layer.shadowRadius = 2
+    }
+    
+}
+
+// MARK: - Table View Configuration Extensions
+
+private extension HomeViewController {
+    
+    func setupTableView() {
+        view.addSubview(tableView)
+        
+        tableView.snp.makeConstraints {
+            $0.edges.equalTo(view)
+        }
+        
+        tableView.reloadData()
     }
     
 }

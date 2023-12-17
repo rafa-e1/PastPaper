@@ -12,87 +12,64 @@ import Then
 
 class RestaurantCell: UICollectionViewCell {
     
-    // MARK: - 셀 아이디
+    // MARK: - Identifiers
     
-    static let id = "RestaurantCell"
+    static let identifier = "RestaurantCell"
     
-    // MARK: - 가게 이미지 뷰 설정
+    // MARK: - UI Components
     
     private lazy var colorView = UIView().then {
-        $0.clipsToBounds = true
-        $0.layer.cornerRadius = 10
-        $0.layer.masksToBounds = false
-        $0.layer.shadowOffset = CGSize(width: 0, height: 2)
-        $0.layer.shadowOpacity = 0.5
-        $0.layer.shadowColor = UIColor.black.cgColor
-        $0.layer.shadowRadius = 2
+        $0.configureCornerRadius(true, cornerRadius: 10)
+        $0.configureShadow(
+            false,
+            shadowColor: .black,
+            shadowOffset: CGSize(width: 0, height: 2),
+            shadowOpacity: 0.5,
+            shadowRadius: 2.0
+        )
     }
-    
-    // MARK: - 북마크 버튼 설정
     
     private lazy var bookmarkButton = UIButton(type: .custom).then {
-        $0.setImage(UIImage(systemName: "bookmark")?
-            .withTintColor(.white, renderingMode: .alwaysOriginal)
-            .withConfiguration(
-                UIImage.SymbolConfiguration(
-                    pointSize: 30,
-                    weight: .light)
-            ), for: .normal
-        )
-        $0.addTarget(self, action: #selector(toggleBookmark), for: .touchUpInside)
+        $0.configureBookmarkButton(target: self)
     }
-    
-    // MARK: - 가게 이름 설정
     
     private lazy var nameLabel = UILabel().then {
-        $0.textColor = .black
-        $0.font = .systemFont(ofSize: 17, weight: .bold)
-        $0.numberOfLines = 1
+        $0.configureLabel(font: .systemFont(ofSize: 17, weight: .bold), textColor: .black, lines: 1)
     }
-    
-    // MARK: - 가게 설명 설정
     
     private lazy var descriptionLabel = UILabel().then {
-        $0.textColor = .black
-        $0.font = .systemFont(ofSize: 14)
-        $0.numberOfLines = 3
+        $0.configureLabel(font: .systemFont(ofSize: 14), textColor: .black, lines: 3)
     }
-    
-    // MARK: - 가게 별(평점) 이미지 뷰 설정
     
     private lazy var starImage = UIImageView().then {
-        $0.image = UIImage(named: "star")
-        $0.contentMode = .scaleAspectFit
+        $0.configureImage(image: UIImage(named: "star"), contentMode: .scaleAspectFit)
     }
-    
-    // MARK: - 가게 평점 레이블 설정
     
     private lazy var ratingLabel = UILabel().then {
-        $0.textColor = .black
-        $0.font = .systemFont(ofSize: 14)
+        $0.configureLabel(font: .systemFont(ofSize: 14), textColor: .black)
     }
-    
-    // MARK: - 가게 평점 스택 뷰 설정
     
     private lazy var ratingView = UIStackView(arrangedSubviews: [starImage, ratingLabel]).then {
-        $0.alignment = .fill
-        $0.spacing = 5
-        $0.axis = .horizontal
-        $0.distribution = .fillEqually
+        $0.configureStackView(
+            alignment: .fill,
+            axis: .horizontal,
+            distribution: .fillEqually,
+            spacing: 5
+        )
     }
     
-    // MARK: - 초기화 메서드
+    // MARK: - Initializers
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureUI()
+        setupUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - 레이아웃 서브뷰
+    // MARK: - Layout Subviews
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -102,91 +79,117 @@ class RestaurantCell: UICollectionViewCell {
         ).cgPath
     }
     
-    // MARK: - 셀 재사용 준비
+    // MARK: - Cell Reuse
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        prepare(color: nil, name: nil, description: nil, rating: nil)
+        configure(color: nil, name: nil, description: nil, rating: nil)
     }
     
-    // MARK: - 북마크 버튼 토글 액션
+    // MARK: - Configuration
+    func configure(color: UIColor?, name: String?, description: String?, rating: Double?) {
+        colorView.backgroundColor = color
+        nameLabel.text = name
+        descriptionLabel.text = description
+        ratingLabel.text = rating.map { String(format: "%.1f", $0) } ?? "N/A"
+    }
     
-    @objc private func toggleBookmark() {
-        let isBookmarked = bookmarkButton.currentImage == UIImage(systemName: "bookmark.fill")?
+    // MARK: - Button Action
+    
+    @objc func toggleBookmark() {
+        bookmarkButton.toggleBookmarkState()
+    }
+    
+}
+
+// MARK: - UI Setup
+
+private extension RestaurantCell {
+    
+    func setupUI() {
+        addSubviews()
+        setConstraints()
+    }
+    
+    func addSubviews() {
+        addSubview(colorView)
+        colorView.addSubview(bookmarkButton)
+        addSubview(nameLabel)
+        addSubview(descriptionLabel)
+        addSubview(ratingView)
+    }
+    
+    func setConstraints() {
+        colorViewConstraints()
+        bookmarkButtonConstraints()
+        nameLabelConstraints()
+        descriptionLabelConstraints()
+        ratingViewConstraints()
+    }
+    
+    func colorViewConstraints() {
+        colorView.snp.makeConstraints {
+            $0.top.equalTo(10)
+            $0.left.right.equalToSuperview()
+        }
+    }
+    
+    func bookmarkButtonConstraints() {
+        bookmarkButton.snp.makeConstraints {
+            $0.bottom.equalTo(colorView.snp.bottom).inset(10)
+            $0.right.equalTo(colorView.snp.right).inset(10)
+        }
+    }
+    
+    func nameLabelConstraints() {
+        nameLabel.snp.makeConstraints {
+            $0.top.equalTo(colorView.snp.bottom).offset(5)
+            $0.left.right.equalToSuperview()
+        }
+    }
+    
+    func descriptionLabelConstraints() {
+        descriptionLabel.snp.makeConstraints {
+            $0.top.equalTo(nameLabel.snp.bottom).offset(5)
+            $0.left.right.equalToSuperview()
+        }
+    }
+    
+    func ratingViewConstraints() {
+        ratingView.snp.makeConstraints {
+            $0.top.equalTo(descriptionLabel.snp.bottom).offset(5)
+            $0.left.bottom.equalToSuperview()
+        }
+    }
+    
+}
+
+// MARK: - UIButton Configuration Extensions
+
+private extension UIButton {
+    
+    func configureBookmarkButton(target: RestaurantCell) {
+        setImage(UIImage(systemName: "bookmark")?
+            .withTintColor(.white, renderingMode: .alwaysOriginal)
+            .withConfiguration(
+                UIImage.SymbolConfiguration(pointSize: 30, weight: .light)
+            ), for: .normal
+        )
+        addTarget(target, action: #selector(target.toggleBookmark), for: .touchUpInside)
+    }
+    
+    func toggleBookmarkState() {
+        let isBookmarked = currentImage == UIImage(systemName: "bookmark.fill")?
             .withTintColor(.white, renderingMode: .alwaysOriginal)
             .withConfiguration(UIImage.SymbolConfiguration(pointSize: 30, weight: .light))
         let newImageName = isBookmarked ? "bookmark" : "bookmark.fill"
-        bookmarkButton.setImage(UIImage(systemName: newImageName)?
+        setImage(UIImage(systemName: newImageName)?
             .withTintColor(.white, renderingMode: .alwaysOriginal)
             .withConfiguration(UIImage.SymbolConfiguration(
                 pointSize: 30,
                 weight: .light
             )), for: .normal
         )
-    }
-    
-}
-
-// MARK: - 데이터 구성
-
-extension RestaurantCell {
-    
-    func prepare(color: UIColor?, name: String?, description: String?, rating: Double?) {
-        colorView.backgroundColor = color
-        nameLabel.text = name
-        descriptionLabel.text = description
-        
-        if let rating = rating {
-            let formattedRating = String(format: "%.1f", rating)
-            ratingLabel.text = "\(formattedRating)"
-        } else {
-            ratingLabel.text = "N/A"
-        }
-    }
-    
-}
-
-
-
-// MARK: - UI 설정
-
-private extension RestaurantCell {
-    
-    func configureUI() {
-        addSubview(colorView)
-        colorView.addSubview(bookmarkButton)
-        addSubview(nameLabel)
-        addSubview(descriptionLabel)
-        addSubview(ratingView)
-        
-        makeConstraints()
-    }
-    
-    func makeConstraints() {
-        colorView.snp.makeConstraints {
-            $0.top.equalTo(10)
-            $0.left.right.equalToSuperview()
-        }
-        
-        bookmarkButton.snp.makeConstraints {
-            $0.bottom.equalTo(colorView.snp.bottom).inset(10)
-            $0.right.equalTo(colorView.snp.right).inset(10)
-        }
-        
-        nameLabel.snp.makeConstraints {
-            $0.top.equalTo(colorView.snp.bottom).offset(5)
-            $0.left.right.equalToSuperview()
-        }
-        
-        descriptionLabel.snp.makeConstraints {
-            $0.top.equalTo(nameLabel.snp.bottom).offset(5)
-            $0.left.right.equalToSuperview()
-        }
-        
-        ratingView.snp.makeConstraints {
-            $0.top.equalTo(descriptionLabel.snp.bottom).offset(5)
-            $0.left.bottom.equalToSuperview()
-        }
     }
     
 }
