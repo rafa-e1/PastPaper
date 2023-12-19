@@ -2,3 +2,4 @@ ${PODS_ROOT}/Target Support Files/Pods-PastPaper/Pods-PastPaper-frameworks.sh
 ${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework
 ${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
 ${BUILT_PRODUCTS_DIR}/Then/Then.framework
+${BUILT_PRODUCTS_DIR}/ViewAnimator/ViewAnimator.framework
