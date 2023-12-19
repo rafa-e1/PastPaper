@@ -7,6 +7,7 @@ target 'PastPaper' do
   pod 'SnapKit', '~> 5.6.0'
   pod 'Then'
   pod 'Kingfisher', '~> 7.0'
+  pod "ViewAnimator"
   # Pods for PastPaper
 
 end

@@ -9,6 +9,7 @@ import UIKit
 
 import SnapKit
 import Then
+import ViewAnimator
 
 final class RestaurantViewController: UIViewController {
     
@@ -107,6 +108,17 @@ extension RestaurantViewController: UITableViewDataSource {
 // MARK: - Delegate
 
 extension RestaurantViewController: UITableViewDelegate {
+    
+    func tableView(
+        _ tableView: UITableView,
+        willDisplay cell: UITableViewCell,
+        forRowAt indexPath: IndexPath
+    ) {
+        let animationType = AnimationType.from(direction: .right, offset: 200.0)
+        let animations = [animationType]
+        
+        UIView.animate(views: [cell], animations: animations, duration: 0.8)
+    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 60
