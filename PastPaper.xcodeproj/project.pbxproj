@@ -15,6 +15,7 @@
 		0562C21A2B2EDF9F0090C333 /* UIStackView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0562C2192B2EDF9F0090C333 /* UIStackView+Extensions.swift */; };
 		0562C21D2B2EE2950090C333 /* CALayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0562C21C2B2EE2950090C333 /* CALayer+Extensions.swift */; };
 		0562C21F2B2EE2E70090C333 /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0562C21E2B2EE2E70090C333 /* UIButton+Extensions.swift */; };
+		0562C2212B3190890090C333 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0562C2202B3190890090C333 /* UIColor+Extensions.swift */; };
 		056DAFDB2B21A78E0074F5FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056DAFDA2B21A78E0074F5FA /* AppDelegate.swift */; };
 		056DAFDD2B21A78E0074F5FA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 056DAFDC2B21A78E0074F5FA /* SceneDelegate.swift */; };
 		056DAFE42B21A78F0074F5FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 056DAFE32B21A78F0074F5FA /* Assets.xcassets */; };
@@ -39,6 +40,7 @@
 		0562C2192B2EDF9F0090C333 /* UIStackView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extensions.swift"; sourceTree = "<group>"; };
 		0562C21C2B2EE2950090C333 /* CALayer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extensions.swift"; sourceTree = "<group>"; };
 		0562C21E2B2EE2E70090C333 /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
+		0562C2202B3190890090C333 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		056DAFD72B21A78E0074F5FA /* PastPaper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PastPaper.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		056DAFDA2B21A78E0074F5FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		056DAFDC2B21A78E0074F5FA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				0562C2172B2EDF890090C333 /* UIImageView+Extensions.swift */,
 				0562C2192B2EDF9F0090C333 /* UIStackView+Extensions.swift */,
 				0562C21E2B2EE2E70090C333 /* UIButton+Extensions.swift */,
+				0562C2202B3190890090C333 /* UIColor+Extensions.swift */,
 				0562C21C2B2EE2950090C333 /* CALayer+Extensions.swift */,
 			);
 			path = Extension;
@@ -313,6 +316,7 @@
 				0562C2122B2EDF130090C333 /* UIView+Extensions.swift in Sources */,
 				0562C2142B2EDF4B0090C333 /* UILabel+Extensions.swift in Sources */,
 				0562C2102B2E0E0D0090C333 /* DataModel.swift in Sources */,
+				0562C2212B3190890090C333 /* UIColor+Extensions.swift in Sources */,
 				05B81F792B24C7EE0074A3E1 /* CategoryCell.swift in Sources */,
 				0562C21D2B2EE2950090C333 /* CALayer+Extensions.swift in Sources */,
 				05E146672B29FD640044FDFF /* HomeCell.swift in Sources */,

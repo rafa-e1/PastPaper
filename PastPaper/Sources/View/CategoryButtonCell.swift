@@ -114,8 +114,8 @@ private extension CategoryButtonCell {
             $0.configureButton(
                 configuration: .filled(),
                 title: title,
-                backgroundColor: .black,
-                foregroundColor: .white,
+                backgroundColor:  .backgroundColor,
+                foregroundColor: .black,
                 contentInsets: .init(top: 0, leading: 20, bottom: 0, trailing: 20)
             )
             $0.configureCornerRadius(true, cornerRadius: 10)
