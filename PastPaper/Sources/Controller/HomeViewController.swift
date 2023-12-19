@@ -20,7 +20,7 @@ final class HomeViewController: UIViewController {
     // MARK: - UI Components
     
     private lazy var tableView = UITableView(frame: .zero, style: .insetGrouped).then {
-        $0.backgroundColor = #colorLiteral(red: 0.9647058845, green: 0.9647058845, blue: 0.9647058845, alpha: 1)
+        $0.backgroundColor = .backgroundColor
         $0.separatorStyle = .none
         $0.rowHeight = 50
         $0.dataSource = self
